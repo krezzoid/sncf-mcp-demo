@@ -1,0 +1,4 @@
+.git
+*.out
+coverage.*
+/sncf-mcp

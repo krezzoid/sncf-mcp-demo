@@ -154,6 +154,7 @@ type NextDeparturesInput struct {
 
 // NextDeparturesOutput is the structured result of next_departures.
 type NextDeparturesOutput struct {
+	Next       string                    `json:"next"` // one-line summary of the next train
 	Departures []transform.LeanDeparture `json:"departures"`
 }
 
@@ -174,7 +175,8 @@ func (h *Handlers) NextDepartures(ctx context.Context, _ *mcp.CallToolRequest, i
 	if err != nil {
 		return nil, NextDeparturesOutput{}, fmt.Errorf("next_departures: %w", err)
 	}
-	return nil, NextDeparturesOutput{Departures: transform.Departures(resp)}, nil
+	deps := transform.Departures(resp)
+	return nil, NextDeparturesOutput{Next: transform.NextSummary(deps), Departures: deps}, nil
 }
 
 // --- get_disruptions -----------------------------------------------------

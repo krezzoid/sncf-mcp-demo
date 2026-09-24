@@ -164,7 +164,11 @@ func Departures(resp *navitia.DeparturesResponse) []LeanDeparture {
 // NextSummary renders the first departure as one line, e.g.
 // "TER 96521 to Lyon Perrache (Lyon) at 14:33 (+3 min)". It is the answer an
 // agent usually wants from a departures board, without reading the whole list.
+// If there are no departures, it returns an empty string.
 func NextSummary(deps []LeanDeparture) string {
+	if len(deps) == 0 {
+		return ""
+	}
 	next := deps[0]
 	s := fmt.Sprintf("%s %s to %s at %s", next.Mode, next.Train, next.Direction, clockTime(next.Expected))
 	if next.DelayMin > 0 {

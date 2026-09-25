@@ -60,6 +60,9 @@ func Journeys(resp *navitia.JourneysResponse) []LeanJourney {
 			if s.Type != "public_transport" || s.DisplayInfo == nil {
 				continue
 			}
+			if len(s.StopDateTimes) == 0 {
+				continue
+			}
 			// The boarding stop carries the real-time departure next to the
 			// timetabled one, as on a departures board.
 			boarding := s.StopDateTimes[0]

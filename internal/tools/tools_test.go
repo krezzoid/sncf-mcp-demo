@@ -17,7 +17,7 @@ import (
 func fakeNavitia(t *testing.T) *navitia.Client {
 	t.Helper()
 	places := `{"places":[{"id":"stop_area:X","name":"X","embedded_type":"stop_area","quality":90}]}`
-	journeys := `{"journeys":[{"duration":3600,"nb_transfers":0,"departure_date_time":"20260620T140000","arrival_date_time":"20260620T150000","sections":[{"type":"public_transport","departure_date_time":"20260620T140000","arrival_date_time":"20260620T150000","from":{"name":"A"},"to":{"name":"B"},"display_informations":{"commercial_mode":"TGV INOUI","headsign":"123"}}]}]}`
+	journeys := `{"journeys":[{"duration":3600,"nb_transfers":0,"departure_date_time":"20260620T140000","arrival_date_time":"20260620T150000","sections":[{"type":"public_transport","departure_date_time":"20260620T140000","arrival_date_time":"20260620T150000","from":{"name":"A"},"to":{"name":"B"},"display_informations":{"commercial_mode":"TGV INOUI","headsign":"123"},"stop_date_times":[{"departure_date_time":"20260620T140000"},{"arrival_date_time":"20260620T150000"}]}]}]}`
 	departures := `{"departures":[{"display_informations":{"commercial_mode":"TER","direction":"Lyon Perrache (Lyon)","headsign":"96521"},"stop_date_time":{"departure_date_time":"20260618T143300","base_departure_date_time":"20260618T143000","data_freshness":"realtime"}}]}`
 	disruptions := `{"disruptions":[{"id":"x","status":"active","severity":{"name":"perturbation","effect":"SIGNIFICANT_DELAYS"},"messages":[{"text":"Retards à prévoir."}]}]}`
 

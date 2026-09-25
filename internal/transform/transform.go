@@ -62,13 +62,20 @@ func Journeys(resp *navitia.JourneysResponse) []LeanJourney {
 			}
 			// The boarding stop carries the real-time departure next to the
 			// timetabled one, as on a departures board.
-			boarding := s.StopDateTimes[0]
+			var boarding *navitia.StopDateTime
+			if len(s.StopDateTimes) > 0 {
+				boarding = &s.StopDateTimes[0]
+			}
 			leg := LeanLeg{
 				Mode:      s.DisplayInfo.CommercialMode,
 				Train:     s.DisplayInfo.Headsign,
 				Departure: parseTime(s.DepartureDateTime),
 				Arrival:   parseTime(s.ArrivalDateTime),
-				DelayMin:  delayMinutes(boarding.BaseDepartureDateTime, boarding.DepartureDateTime),
+			}
+			if boarding != nil {
+				leg.DelayMin = delayMinutes(boarding.BaseDepartureDateTime, boarding.DepartureDateTime)
+			} else {
+				leg.DelayMin = 0
 			}
 			if s.From != nil {
 				leg.From = s.From.Name

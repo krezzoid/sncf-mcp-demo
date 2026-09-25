@@ -31,6 +31,11 @@ var Commit = "unknown"
 // shutdownTimeout bounds how long in-flight HTTP requests may finish on shutdown.
 const shutdownTimeout = 10 * time.Second
 
+// navitiaTimeout bounds each request to Navitia. A slow Navitia used to hold a
+// tool call for up to 15 s per request, long after the agent gave up waiting:
+// fail fast instead, and let the client's retries take over.
+const navitiaTimeout = 1500 * time.Millisecond
+
 // Config holds runtime configuration for the server.
 type Config struct {
 	APIKey    string                 // SNCF API key
@@ -57,7 +62,7 @@ func (cfg *Config) defaults() {
 // The AddTool / handler signatures below follow the official v1 examples.
 func build(cfg Config) *mcp.Server {
 	opts := []navitia.Option{navitia.WithHTTPClient(&http.Client{
-		Timeout:   15 * time.Second,
+		Timeout:   navitiaTimeout,
 		Transport: observability.UpstreamTransport(http.DefaultTransport, cfg.Metrics, cfg.Logger),
 	})}
 	if cfg.BaseURL != "" {

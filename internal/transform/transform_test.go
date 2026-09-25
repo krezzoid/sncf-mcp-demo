@@ -112,6 +112,19 @@ func TestDepartures_ComputesDelayAndRealtime(t *testing.T) {
 	}
 }
 
+func TestNextSummary_LeadsWithTheFirstTrain(t *testing.T) {
+	deps := []LeanDeparture{
+		{Direction: "Lyon Perrache (Lyon)", Mode: "TER", Train: "96521", Expected: "2026-06-18T14:33:00+02:00", DelayMin: 3},
+		{Direction: "Paris Gare de Lyon (Paris)", Mode: "TGV INOUI", Train: "6612", Expected: "2026-06-18T15:00:00+02:00"},
+	}
+	if got, want := NextSummary(deps), "TER 96521 to Lyon Perrache (Lyon) at 14:33 (+3 min)"; got != want {
+		t.Errorf("NextSummary = %q, want %q", got, want)
+	}
+	if got, want := NextSummary(deps[1:]), "TGV INOUI 6612 to Paris Gare de Lyon (Paris) at 15:00"; got != want {
+		t.Errorf("NextSummary on time = %q, want %q", got, want)
+	}
+}
+
 func TestDisruptions_ProjectsSeverityAndMessage(t *testing.T) {
 	resp := &navitia.DisruptionsResponse{
 		Disruptions: []navitia.Disruption{

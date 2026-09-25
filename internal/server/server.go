@@ -34,7 +34,7 @@ const shutdownTimeout = 10 * time.Second
 // navitiaTimeout bounds each request to Navitia. A slow Navitia used to hold a
 // tool call for up to 15 s per request, long after the agent gave up waiting:
 // fail fast instead, and let the client's retries take over.
-const navitiaTimeout = 1500 * time.Millisecond
+const navitiaTimeout = 15 * time.Second
 
 // Config holds runtime configuration for the server.
 type Config struct {

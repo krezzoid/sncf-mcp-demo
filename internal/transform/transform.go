@@ -10,6 +10,7 @@
 package transform
 
 import (
+	"fmt"
 	"time"
 
 	"github.com/krezzoid/sncf-mcp/internal/navitia"
@@ -158,6 +159,27 @@ func Departures(resp *navitia.DeparturesResponse) []LeanDeparture {
 		out = append(out, ld)
 	}
 	return out
+}
+
+// NextSummary renders the first departure as one line, e.g.
+// "TER 96521 to Lyon Perrache (Lyon) at 14:33 (+3 min)". It is the answer an
+// agent usually wants from a departures board, without reading the whole list.
+func NextSummary(deps []LeanDeparture) string {
+	next := deps[0]
+	s := fmt.Sprintf("%s %s to %s at %s", next.Mode, next.Train, next.Direction, clockTime(next.Expected))
+	if next.DelayMin > 0 {
+		s += fmt.Sprintf(" (+%d min)", next.DelayMin)
+	}
+	return s
+}
+
+// clockTime shortens an RFC3339 timestamp to HH:MM in its own offset.
+func clockTime(rfc3339 string) string {
+	t, err := time.Parse(time.RFC3339, rfc3339)
+	if err != nil {
+		return rfc3339
+	}
+	return t.Format("15:04")
 }
 
 // --- disruptions ---------------------------------------------------------

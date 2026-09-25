@@ -70,6 +70,9 @@ type Section struct {
 	From              *Endpoint            `json:"from,omitempty"`
 	To                *Endpoint            `json:"to,omitempty"`
 	DisplayInfo       *DisplayInformations `json:"display_informations,omitempty"`
+	// StopDateTimes lists the stops the train calls at, boarding stop first,
+	// with timetabled and real-time stamps.
+	StopDateTimes []StopDateTime `json:"stop_date_times,omitempty"`
 }
 
 // Endpoint is the origin or destination of a section.

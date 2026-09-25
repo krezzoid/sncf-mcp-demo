@@ -77,6 +77,9 @@ func TestNextDepartures_EndToEnd(t *testing.T) {
 	if out.Departures[0].DelayMin != 3 || !out.Departures[0].Realtime {
 		t.Errorf("departure = %+v, want a 3-minute real-time delay", out.Departures[0])
 	}
+	if want := "TER 96521 to Lyon Perrache (Lyon) at 14:33 (+3 min)"; out.Next != want {
+		t.Errorf("Next = %q, want %q", out.Next, want)
+	}
 }
 
 func TestGetDisruptions_EndToEnd(t *testing.T) {

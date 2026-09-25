@@ -31,8 +31,9 @@ type LeanLeg struct {
 	Train     string `json:"train"` // headsign / train number
 	From      string `json:"from"`
 	To        string `json:"to"`
-	Departure string `json:"departure"` // RFC3339 local time
-	Arrival   string `json:"arrival"`   // RFC3339 local time
+	Departure string `json:"departure"`     // RFC3339 local time
+	Arrival   string `json:"arrival"`       // RFC3339 local time
+	DelayMin  int    `json:"delay_minutes"` // minutes late leaving the boarding stop, 0 without real-time data
 }
 
 // LeanStation is a compact representation of a /places match.
@@ -59,11 +60,15 @@ func Journeys(resp *navitia.JourneysResponse) []LeanJourney {
 			if s.Type != "public_transport" || s.DisplayInfo == nil {
 				continue
 			}
+			// The boarding stop carries the real-time departure next to the
+			// timetabled one, as on a departures board.
+			boarding := s.StopDateTimes[0]
 			leg := LeanLeg{
 				Mode:      s.DisplayInfo.CommercialMode,
 				Train:     s.DisplayInfo.Headsign,
 				Departure: parseTime(s.DepartureDateTime),
 				Arrival:   parseTime(s.ArrivalDateTime),
+				DelayMin:  delayMinutes(boarding.BaseDepartureDateTime, boarding.DepartureDateTime),
 			}
 			if s.From != nil {
 				leg.From = s.From.Name

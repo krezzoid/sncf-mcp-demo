@@ -25,6 +25,10 @@ func TestJourneys_ProjectsLeanShape(t *testing.T) {
 							CommercialMode: "TGV INOUI",
 							Headsign:       "6607",
 						},
+						StopDateTimes: []navitia.StopDateTime{
+							{BaseDepartureDateTime: "20260620T140000", DepartureDateTime: "20260620T140500", DataFreshness: "realtime"},
+							{DepartureDateTime: "20260620T155600"},
+						},
 					},
 					// A transfer section must be excluded from Legs.
 					{Type: "transfer"},
@@ -49,6 +53,9 @@ func TestJourneys_ProjectsLeanShape(t *testing.T) {
 	}
 	if j.Legs[0].From != "Paris Gare de Lyon" || j.Legs[0].To != "Lyon Part Dieu" {
 		t.Errorf("endpoints = %q -> %q", j.Legs[0].From, j.Legs[0].To)
+	}
+	if j.Legs[0].DelayMin != 5 {
+		t.Errorf("DelayMin = %d, want 5 (real-time departure from the boarding stop)", j.Legs[0].DelayMin)
 	}
 }
 

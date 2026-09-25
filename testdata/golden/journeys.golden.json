@@ -11,7 +11,8 @@
         "from": "Paris Gare de Lyon",
         "to": "Lyon Part Dieu",
         "departure": "2026-06-20T14:00:00+02:00",
-        "arrival": "2026-06-20T15:56:00+02:00"
+        "arrival": "2026-06-20T15:56:00+02:00",
+        "delay_minutes": 0
       }
     ]
   },
@@ -27,7 +28,8 @@
         "from": "Paris Gare de Lyon",
         "to": "Macon Loche TGV",
         "departure": "2026-06-20T14:30:00+02:00",
-        "arrival": "2026-06-20T16:00:00+02:00"
+        "arrival": "2026-06-20T16:00:00+02:00",
+        "delay_minutes": 0
       },
       {
         "mode": "TER",
@@ -35,7 +37,8 @@
         "from": "Macon Loche TGV",
         "to": "Lyon Part Dieu",
         "departure": "2026-06-20T16:20:00+02:00",
-        "arrival": "2026-06-20T16:45:00+02:00"
+        "arrival": "2026-06-20T16:45:00+02:00",
+        "delay_minutes": 0
       }
     ]
   }
